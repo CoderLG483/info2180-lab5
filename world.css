@@ -98,3 +98,11 @@ tbody tr {
 tbody tr:nth-child(even) {
     background-color: #fafbfc;
 }
+
+#lookup-cities {
+    background-color: #3b82f6;
+}
+
+#lookup-cities:hover {
+    background-color: #2563eb;
+}

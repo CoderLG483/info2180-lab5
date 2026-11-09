@@ -1,15 +1,21 @@
 window.addEventListener('DOMContentLoaded', () => {
     const lookupBtn = document.querySelector('#lookup');
+    const lookupCitiesBtn = document.querySelector('#lookup-cities');
     const countryInput = document.querySelector('#country');
     const resultDiv = document.querySelector('#result');
 
-    lookupBtn.addEventListener('click', () => {
-        const query = encodeURIComponent(countryInput.value.trim());
+    function fetchData(lookupType = '') {
+        const country = encodeURIComponent(countryInput.value.trim());
+        let url = `world.php?country=${country}`;
+        
+        if (lookupType === 'cities') {
+            url += `&lookup=cities`;
+        }
 
-        fetch(`world.php?country=${query}`)
+        fetch(url)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Network error');
                 }
                 return response.text();
             })
@@ -17,7 +23,15 @@ window.addEventListener('DOMContentLoaded', () => {
                 resultDiv.innerHTML = data;
             })
             .catch(error => {
-                console.error('Error fetching data:', error);
+                console.error('Fetch error:', error);
             });
+    }
+
+    lookupBtn.addEventListener('click', () => {
+        fetchData();
+    });
+
+    lookupCitiesBtn.addEventListener('click', () => {
+        fetchData('cities');
     });
 });
